@@ -1,0 +1,21 @@
+name: MyWorkflow
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Installing Python.... # Naming the build is important to use it as a status check
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+      - name: Run Ansible playbook
+        run: |
+          ansible-playbook -i inventory.ini playbook.yml
